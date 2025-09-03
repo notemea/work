@@ -1,0 +1,54 @@
+# —— 通道/设备信息（按实际填写） ——
+channel:
+  chid: 1                 # 通道id
+  ip: "rtsp://192.168.10.5:554/id=1&type=0"   # 摄像头RTSP（也会透传给推理）
+  geid: 10001             # 算法引擎全局唯一编号
+  sn: "ABCDEFGHIJKLMNOP"  # 16位设备序列号
+  sn32: "ABCDEFGHIJKLMNOPQRSTUVWXZY012345"   # 32位
+  location: "A库房-西北角"  # 摄像头位置
+  width: 1920             # 推送图片宽；留空将自动取帧宽
+  height: 1080            # 推送图片高；留空将自动取帧高
+  desc: "PPE通道1"        # 通道描述
+  snap_max_num: 3
+  pnum: 1
+  record:
+    is_record: true
+    is_send_video: false
+    pre_time: 5
+    after_time: 10
+
+# —— Webhook 设置 ——
+webhook:
+  url: "http://118.178.185.130:3399/boxWebhook"
+  timeout_sec: 5
+  verify_tls: false       # http/内网可设为 false
+  headers: {}             # 需要鉴权就加，例如 {"Authorization": "Bearer XXX"}
+
+# —— 类别编号映射（填你们平台的 cid/gcid/中文名） ——
+classes:
+  hardhat:      { cid: 0, gcid: 1000, class_name: "已戴安全帽" }
+  no-hardhat:   { cid: 2, gcid: 2002, class_name: "未戴安全帽" }
+  vest:         { cid: 7, gcid: 1007, class_name: "已穿背心" }
+  no-vest:      { cid: 4, gcid: 2004, class_name: "未穿背心" }
+  person:       { cid: 5, gcid: 3005, class_name: "人" }
+
+# —— 目标框坐标顺序（保持默认即可）。若对方接口要求“奇特顺序”，可切为 legacy：x1=LT(w)、x2=LT(h)、y1=RB(w)、y2=RB(h)
+box_order: "xyxy"   # 可选：xyxy / legacy
+
+# —— 你上传推理脚本的路径（保持文件名即可，注意放在同目录或写绝对路径） ——
+infer_module_path: "./infer_gst_rknn_single_CAPTURE_CN_FULL_MERGE_AUTOFONT_fix_leftpanel_fontfix_overlapfixed_notext.py"
+
+# —— 可选：覆盖推理脚本里的关键参数（若不需要可删掉此段） ——
+infer_overrides:
+  INPUT_URL: "rtsp://192.168.10.5:554/id=1&type=0"
+  OUTPUT_URL: "rtmp://115.190.15.47:1935/live/250001?sign=41db35390ddad33f83944f44b8b75ded"
+  MODEL_PATH: "best-rk3588.rknn"
+  META_PATH: "metadata.yaml"
+
+# —— 抓拍/上传策略（可选） ——
+snap_policy:
+  min_score: 0.50         # 低于此置信度不上传
+  cooldown_sec: 6         # 对同一人/区域的冷却秒数
+  grid_size: 72           # 去重网格
+  grid_cooldown_sec: 10
+  draw_text_on_snap: false
