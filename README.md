@@ -1,21 +1,4 @@
 # work
-好的，这个项目包含以下文件：
-
-```
-.
-├── 20250823_160457.jpg
-├── README.md
-├── config.yaml
-├── detect_and_post.py
-├── infer_gst_rknn_single_CAPTURE_CN_FULL_MERGE_AUTOFONT_fix_leftpanel_fontfix_overlapfixed_notext.py
-├── sample.json
-├── sample_225a.json
-└── upload_json.py
-```
-
-这是 `README.md` 文件草稿：
-
------
 
 # 个人防护设备 (PPE) 检测与上报系统
 
